@@ -1,0 +1,2715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#00eaff">
+
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-capable"
+          content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent">
+
+    <title>LEVELUP</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --cyan: #00eaff;
+            --cyan-dark: #008ca3;
+            --purple: #9b00ff;
+            --pink: #ff00c8;
+            --blue: #0066ff;
+            --green: #00ff88;
+            --red: #ff1744;
+
+            --bg: #03050b;
+            --panel: rgba(5, 12, 25, 0.88);
+            --border: rgba(0, 234, 255, 0.45);
+
+            --text: #e9fbff;
+            --muted: #7e9aa3;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(0, 234, 255, 0.08),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 80% 80%,
+                    rgba(155, 0, 255, 0.08),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    rgba(3, 5, 11, 0.94),
+                    rgba(3, 5, 11, 0.97)
+                ),
+                #03050b;
+
+            color: var(--text);
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            overflow-x: hidden;
+        }
+
+        /* CYBER GRID */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(0, 234, 255, 0.035) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(0, 234, 255, 0.035) 1px,
+                    transparent 1px
+                );
+
+            background-size: 45px 45px;
+
+            pointer-events: none;
+            z-index: -3;
+        }
+
+        /* SCANLINES */
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent 0px,
+                    transparent 3px,
+                    rgba(0, 234, 255, 0.018) 4px
+                );
+
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+
+            height: 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+
+            background:
+                rgba(2, 6, 14, 0.92);
+
+            border-bottom:
+                1px solid rgba(0, 234, 255, 0.25);
+
+            backdrop-filter: blur(12px);
+
+            box-shadow:
+                0 0 30px rgba(0, 234, 255, 0.08);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 4px;
+
+            color: var(--cyan);
+
+            text-shadow:
+                0 0 5px var(--cyan),
+                0 0 15px var(--cyan),
+                0 0 35px rgba(0, 234, 255, 0.5);
+        }
+
+        .logo span {
+            color: var(--purple);
+
+            text-shadow:
+                0 0 5px var(--purple),
+                0 0 15px var(--purple),
+                0 0 30px rgba(155, 0, 255, 0.5);
+        }
+
+        .coin-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 10px 15px;
+
+            border:
+                1px solid rgba(255, 225, 0, 0.4);
+
+            background:
+                rgba(255, 225, 0, 0.04);
+
+            color: #ffe900;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 0 15px rgba(255, 225, 0, 0.08);
+        }
+
+        .coin-icon {
+            font-size: 18px;
+        }
+
+        /* MAIN */
+
+        main {
+            width: min(1100px, 94%);
+            margin: 35px auto 80px;
+        }
+
+        /* PANELS */
+
+        .panel {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(5, 17, 31, 0.95),
+                    rgba(4, 7, 17, 0.92)
+                );
+
+            border:
+                1px solid var(--border);
+
+            padding: 25px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 0 25px rgba(0, 234, 255, 0.07),
+                inset 0 0 25px rgba(0, 234, 255, 0.025);
+
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 90px;
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--cyan),
+                    var(--purple)
+                );
+
+            box-shadow:
+                0 0 10px var(--cyan);
+        }
+
+        .panel::after {
+            content: "";
+
+            position: absolute;
+
+            right: 0;
+            bottom: 0;
+
+            width: 60px;
+            height: 2px;
+
+            background: var(--purple);
+
+            box-shadow:
+                0 0 10px var(--purple);
+        }
+
+        /* PLAYER */
+
+        .player-card {
+            text-align: center;
+        }
+
+        .player-label {
+            color: var(--muted);
+            letter-spacing: 3px;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .level-number {
+            font-size: 72px;
+            line-height: 1;
+
+            font-weight: 900;
+
+            color: var(--cyan);
+
+            text-shadow:
+                0 0 10px var(--cyan),
+                0 0 35px rgba(0, 234, 255, 0.5);
+        }
+
+        .rank {
+            margin-top: 10px;
+
+            font-size: 25px;
+            font-weight: 900;
+
+            letter-spacing: 5px;
+
+            color: var(--purple);
+
+            text-shadow:
+                0 0 10px var(--purple),
+                0 0 25px rgba(155, 0, 255, 0.5);
+        }
+
+        .xp-info {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 25px;
+            margin-bottom: 8px;
+
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .xp-bar {
+            width: 100%;
+            height: 18px;
+
+            border:
+                1px solid rgba(0, 234, 255, 0.45);
+
+            background:
+                rgba(0, 234, 255, 0.04);
+
+            padding: 3px;
+        }
+
+        .xp-fill {
+            height: 100%;
+            width: 0%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--cyan),
+                    var(--purple)
+                );
+
+            box-shadow:
+                0 0 10px var(--cyan),
+                0 0 20px rgba(155, 0, 255, 0.4);
+
+            transition:
+                width 0.5s ease;
+        }
+
+        /* RANK PROGRESSION */
+
+        .rank-title {
+            margin-top: 30px;
+            margin-bottom: 15px;
+
+            color: var(--cyan);
+
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .rank-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(140px, 1fr));
+
+            gap: 8px;
+        }
+
+        .rank-item {
+            padding: 10px;
+
+            border:
+                1px solid rgba(0, 234, 255, 0.15);
+
+            background:
+                rgba(0, 234, 255, 0.025);
+
+            text-align: center;
+        }
+
+        .rank-item strong {
+            display: block;
+            color: var(--cyan);
+            font-size: 13px;
+        }
+
+        .rank-item span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .stat {
+            text-align: center;
+
+            padding: 20px;
+
+            border:
+                1px solid rgba(155, 0, 255, 0.25);
+
+            background:
+                rgba(155, 0, 255, 0.025);
+        }
+
+        .stat-value {
+            font-size: 30px;
+            font-weight: 900;
+
+            color: var(--cyan);
+
+            text-shadow:
+                0 0 10px rgba(0, 234, 255, 0.5);
+        }
+
+        .stat-name {
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            letter-spacing: 2px;
+        }
+
+        /* TITLES */
+
+        .section-title {
+            font-size: 18px;
+
+            color: var(--cyan);
+
+            font-weight: 900;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 18px;
+
+            text-shadow:
+                0 0 10px rgba(0, 234, 255, 0.4);
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 18px;
+        }
+
+        /* TASKS */
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 13px 14px;
+
+            border:
+                1px solid rgba(0, 234, 255, 0.13);
+
+            background:
+                rgba(0, 0, 0, 0.25);
+
+            transition:
+                0.2s ease;
+        }
+
+        .task:hover {
+            border-color:
+                rgba(0, 234, 255, 0.4);
+
+            box-shadow:
+                0 0 15px rgba(0, 234, 255, 0.06);
+        }
+
+        .task.completed {
+            opacity: 0.48;
+        }
+
+        .task.completed .task-name {
+            text-decoration: line-through;
+        }
+
+        .task-check {
+            width: 20px;
+            height: 20px;
+
+            accent-color: var(--cyan);
+
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .task-name {
+            flex: 1;
+
+            font-size: 14px;
+        }
+
+        .task-xp {
+            color: var(--cyan);
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            white-space: nowrap;
+        }
+
+        /* BUTTONS */
+
+        button {
+            border: none;
+
+            font-family: inherit;
+
+            cursor: pointer;
+
+            transition:
+                0.2s ease;
+        }
+
+        .complete-btn {
+            padding: 8px 12px;
+
+            background:
+                rgba(0, 234, 255, 0.08);
+
+            border:
+                1px solid rgba(0, 234, 255, 0.35);
+
+            color: var(--cyan);
+
+            font-weight: 800;
+
+            font-size: 11px;
+        }
+
+        .complete-btn:hover {
+            background: var(--cyan);
+            color: #001015;
+
+            box-shadow:
+                0 0 15px var(--cyan);
+        }
+
+        .complete-btn:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+        }
+
+        .delete-btn {
+            padding: 8px 12px;
+
+            background:
+                rgba(255, 23, 68, 0.06);
+
+            border:
+                1px solid rgba(255, 23, 68, 0.3);
+
+            color: #ff4969;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .delete-btn:hover {
+            background: var(--red);
+            color: white;
+
+            box-shadow:
+                0 0 15px var(--red);
+        }
+
+        /* CUSTOM QUEST CREATOR */
+
+        .quest-creator {
+            display: grid;
+
+            grid-template-columns:
+                1fr 150px 120px;
+
+            gap: 10px;
+        }
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 13px;
+
+            background:
+                rgba(0, 0, 0, 0.35);
+
+            color: var(--text);
+
+            border:
+                1px solid rgba(0, 234, 255, 0.25);
+
+            outline: none;
+
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--cyan);
+
+            box-shadow:
+                0 0 12px rgba(0, 234, 255, 0.15);
+        }
+
+        select option {
+            background: #050810;
+        }
+
+        .add-btn {
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--cyan),
+                    #00a7ff
+                );
+
+            color: #001015;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
+        }
+
+        .add-btn:hover {
+            box-shadow:
+                0 0 20px var(--cyan);
+        }
+
+        /* NOTIFICATIONS */
+
+        .notification-status {
+            padding: 12px;
+
+            margin-bottom: 12px;
+
+            border:
+                1px solid rgba(0, 234, 255, 0.15);
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        .notification-button {
+            padding: 12px 18px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    #6500ff
+                );
+
+            color: white;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
+
+            box-shadow:
+                0 0 15px rgba(155, 0, 255, 0.2);
+        }
+
+        .notification-button:hover {
+            box-shadow:
+                0 0 25px rgba(155, 0, 255, 0.5);
+        }
+
+        /* RESET */
+
+        .danger-zone {
+            border-color:
+                rgba(255, 23, 68, 0.35);
+        }
+
+        .danger-zone .section-title {
+            color: #ff4969;
+
+            text-shadow:
+                0 0 10px rgba(255, 23, 68, 0.4);
+        }
+
+        .reset-button {
+            padding: 12px 20px;
+
+            background:
+                rgba(255, 23, 68, 0.08);
+
+            border:
+                1px solid rgba(255, 23, 68, 0.5);
+
+            color: #ff4969;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
+        }
+
+        .reset-button:hover {
+            background: var(--red);
+            color: white;
+
+            box-shadow:
+                0 0 20px var(--red);
+        }
+
+        /* OFFLINE SCHOOL */
+
+        .school-offline {
+            text-align: center;
+
+            padding: 25px;
+
+            border:
+                1px dashed rgba(155, 0, 255, 0.35);
+
+            color: var(--muted);
+        }
+
+        .school-offline strong {
+            display: block;
+
+            color: var(--purple);
+
+            margin-bottom: 8px;
+
+            letter-spacing: 2px;
+        }
+
+        /* LEVEL UP POPUP */
+
+        .levelup-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 999;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(0, 0, 0, 0.88);
+
+            backdrop-filter: blur(8px);
+        }
+
+        .levelup-overlay.show {
+            display: flex;
+        }
+
+        .levelup-box {
+            width: min(500px, 100%);
+
+            text-align: center;
+
+            padding: 45px 25px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #06131d,
+                    #10051b
+                );
+
+            border:
+                2px solid var(--cyan);
+
+            box-shadow:
+                0 0 25px var(--cyan),
+                0 0 80px rgba(155, 0, 255, 0.3);
+        }
+
+        .levelup-title {
+            font-size: 48px;
+
+            font-weight: 900;
+
+            color: var(--cyan);
+
+            letter-spacing: 6px;
+
+            text-shadow:
+                0 0 10px var(--cyan),
+                0 0 30px var(--cyan);
+        }
+
+        .new-level {
+            margin: 15px 0 25px;
+
+            font-size: 80px;
+
+            font-weight: 900;
+
+            color: var(--purple);
+
+            text-shadow:
+                0 0 20px var(--purple);
+        }
+
+        .continue-button {
+            padding: 13px 30px;
+
+            background:
+                var(--cyan);
+
+            color: #001015;
+
+            font-weight: 900;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 0 15px;
+                height: 65px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .coin-display {
+                padding: 8px 11px;
+                font-size: 12px;
+            }
+
+            main {
+                width: 94%;
+                margin-top: 20px;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+
+            .level-number {
+                font-size: 58px;
+            }
+
+            .rank {
+                font-size: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .quest-creator {
+                grid-template-columns: 1fr;
+            }
+
+            .task {
+                flex-wrap: wrap;
+            }
+
+            .task-name {
+                min-width: 55%;
+            }
+
+            .levelup-title {
+                font-size: 36px;
+            }
+
+            .new-level {
+                font-size: 65px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        LEVEL<span>UP</span>
+    </div>
+
+    <div class="coin-display">
+        <span class="coin-icon">◈</span>
+        <span id="coinDisplay">0</span>
+        COINS
+    </div>
+
+</header>
+
+
+<main>
+
+    <!-- PLAYER -->
+
+    <section class="panel player-card">
+
+        <div class="player-label">
+            CURRENT LEVEL
+        </div>
+
+        <div
+            class="level-number"
+            id="levelDisplay">
+            1
+        </div>
+
+        <div
+            class="rank"
+            id="rankDisplay">
+            BRONZE
+        </div>
+
+
+        <div class="xp-info">
+
+            <span id="xpDisplay">
+                0 XP
+            </span>
+
+            <span id="xpNeededDisplay">
+                0 XP NEEDED
+            </span>
+
+        </div>
+
+
+        <div class="xp-bar">
+
+            <div
+                class="xp-fill"
+                id="xpFill">
+            </div>
+
+        </div>
+
+
+        <div class="rank-title">
+            RANK PROGRESSION
+        </div>
+
+
+        <div class="rank-grid">
+
+            <div class="rank-item">
+                <strong>BRONZE</strong>
+                <span>1–19</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>SILVER</strong>
+                <span>20–59</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>IRON</strong>
+                <span>60–99</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>GOLD</strong>
+                <span>100–149</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>TITANIUM</strong>
+                <span>150–199</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>DIAMOND</strong>
+                <span>200–249</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>CHAMPION</strong>
+                <span>250–314</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>ELITE</strong>
+                <span>315–499</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>GOD</strong>
+                <span>500–999</span>
+            </div>
+
+            <div class="rank-item">
+                <strong>OLYMPIAN</strong>
+                <span>1000+</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <div
+                class="stat-value"
+                id="completedDisplay">
+                0
+            </div>
+
+            <div class="stat-name">
+                QUESTS COMPLETED
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="stat-value"
+                id="totalXPDisplay">
+                0
+            </div>
+
+            <div class="stat-name">
+                TOTAL XP
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="stat-value"
+                id="streakDisplay">
+                0
+            </div>
+
+            <div class="stat-name">
+                DAY STREAK
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DAILY TASKS -->
+
+    <section class="panel">
+
+        <div class="section-title">
+            DAILY TASKS
+        </div>
+
+        <div class="section-subtitle">
+            Complete these every day to build your streak.
+        </div>
+
+        <div
+            class="task-list"
+            id="dailyTasks">
+        </div>
+
+    </section>
+
+
+    <!-- SCHOOL -->
+
+    <section class="panel">
+
+        <div class="section-title">
+            SCHOOL CHECKLIST
+        </div>
+
+        <div class="section-subtitle">
+            Monday–Friday routine.
+        </div>
+
+        <div
+            id="schoolTasks">
+        </div>
+
+    </section>
+
+
+    <!-- CUSTOM QUESTS -->
+
+    <section class="panel">
+
+        <div class="section-title">
+            CREATE CUSTOM QUEST
+        </div>
+
+        <div class="quest-creator">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Enter quest name...">
+
+            <select id="xpSelect">
+
+                <option value="10">10 XP</option>
+                <option value="25">25 XP</option>
+                <option value="50">50 XP</option>
+                <option value="100">100 XP</option>
+                <option value="250">250 XP</option>
+                <option value="500">500 XP</option>
+
+            </select>
+
+            <button
+                class="add-btn"
+                onclick="addTask()">
+
+                ADD QUEST
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- CUSTOM QUEST LIST -->
+
+    <section class="panel">
+
+        <div class="section-title">
+            CUSTOM QUESTS
+        </div>
+
+        <div
+            class="task-list"
+            id="customTasks">
+        </div>
+
+    </section>
+
+
+    <!-- NOTIFICATIONS -->
+
+    <section class="panel">
+
+        <div class="section-title">
+            NOTIFICATIONS
+        </div>
+
+        <div
+            class="notification-status"
+            id="notificationStatus">
+
+            Notifications are currently disabled.
+
+        </div>
+
+        <button
+            class="notification-button"
+            id="notificationButton"
+            onclick="enableNotifications()">
+
+            ENABLE NOTIFICATIONS
+
+        </button>
+
+    </section>
+
+
+    <!-- RESET -->
+
+    <section class="panel danger-zone">
+
+        <div class="section-title">
+            DANGER ZONE
+        </div>
+
+        <div class="section-subtitle">
+            This permanently resets your LEVELUP progress on this device.
+        </div>
+
+        <button
+            class="reset-button"
+            onclick="resetProgress()">
+
+            RESET ALL PROGRESS
+
+        </button>
+
+    </section>
+
+</main>
+
+
+<!-- LEVEL UP POPUP -->
+
+<div
+    class="levelup-overlay"
+    id="levelUpPopup">
+
+    <div class="levelup-box">
+
+        <div class="levelup-title">
+            LEVEL UP
+        </div>
+
+        <div
+            class="new-level"
+            id="newLevelDisplay">
+            2
+        </div>
+
+        <p>
+            Your progress continues.
+        </p>
+
+        <br>
+
+        <button
+            class="continue-button"
+            onclick="closeLevelUp()">
+
+            CONTINUE
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* ================================
+       PLAYER DATA
+    ================================= */
+
+    let player =
+        JSON.parse(
+            localStorage.getItem("levelUpPlayer")
+        ) || {
+
+            level: 1,
+            xp: 0,
+            totalXP: 0,
+            coins: 0,
+            completedTasks: 0,
+            streak: 0,
+            lastCompletionDate: null
+
+        };
+
+
+    let tasks =
+        JSON.parse(
+            localStorage.getItem("levelUpTasks")
+        ) || [];
+
+
+    let dailyProgress =
+        JSON.parse(
+            localStorage.getItem("levelUpDailyProgress")
+        ) || {
+
+            date: getToday(),
+            completed: []
+
+        };
+
+
+    let schoolProgress =
+        JSON.parse(
+            localStorage.getItem("levelUpSchoolProgress")
+        ) || {
+
+            date: getToday(),
+            completed: []
+
+        };
+
+
+    let notificationsEnabled =
+        localStorage.getItem("levelUpNotifications")
+        === "true";
+
+
+    /* ================================
+       DAILY TASKS
+    ================================= */
+
+    const dailyTaskDefinitions = [
+
+        {
+            id: "wake7",
+            name: "Wake up at 7:00",
+            xp: 25
+        },
+
+        {
+            id: "water2l",
+            name: "Drink 2 litres of water",
+            xp: 50
+        },
+
+        {
+            id: "gym",
+            name: "Go to the gym",
+            xp: 100
+        },
+
+        {
+            id: "study2h",
+            name: "Study for 2 hours",
+            xp: 100
+        },
+
+        {
+            id: "bed",
+            name: "Make your bed in the morning",
+            xp: 25
+        },
+
+        {
+            id: "creatine",
+            name: "Take creatine in the morning",
+            xp: 25
+        },
+
+        {
+            id: "shilajit",
+            name: "Take shilajit in the morning",
+            xp: 25
+        },
+
+        {
+            id: "cleanHouse",
+            name: "Clean the house",
+            xp: 50
+        },
+
+        {
+            id: "pets",
+            name: "Take care of pets",
+            xp: 50
+        }
+
+    ];
+
+
+    /* ================================
+       SCHOOL TASKS
+    ================================= */
+
+    const schoolTaskDefinitions = [
+
+        {
+            id: "schoolWake",
+            name: "Wake up at 6:45",
+            xp: 25
+        },
+
+        {
+            id: "schoolBed",
+            name: "Make your bed",
+            xp: 20
+        },
+
+        {
+            id: "schoolWater",
+            name: "Drink a glass of water",
+            xp: 20
+        },
+
+        {
+            id: "schoolPets",
+            name: "Clean pets",
+            xp: 25
+        },
+
+        {
+            id: "schoolMeals",
+            name: "Make meals for school",
+            xp: 40
+        },
+
+        {
+            id: "schoolReady",
+            name: "Get dressed and ready",
+            xp: 25
+        }
+
+    ];
+
+
+    /* ================================
+       DATE FUNCTIONS
+    ================================= */
+
+    function getToday() {
+
+        return new Date().toDateString();
+
+    }
+
+
+    function isSchoolDay() {
+
+        const day =
+            new Date().getDay();
+
+        return day >= 1 && day <= 5;
+
+    }
+
+
+    function checkDailyReset() {
+
+        const today = getToday();
+
+
+        if (dailyProgress.date !== today) {
+
+            dailyProgress = {
+
+                date: today,
+                completed: []
+
+            };
+
+            saveRoutineData();
+
+        }
+
+
+        if (schoolProgress.date !== today) {
+
+            schoolProgress = {
+
+                date: today,
+                completed: []
+
+            };
+
+            saveRoutineData();
+
+        }
+
+    }
+
+
+    function saveRoutineData() {
+
+        localStorage.setItem(
+            "levelUpDailyProgress",
+            JSON.stringify(dailyProgress)
+        );
+
+        localStorage.setItem(
+            "levelUpSchoolProgress",
+            JSON.stringify(schoolProgress)
+        );
+
+    }
+
+
+    /* ================================
+       RANK SYSTEM
+    ================================= */
+
+    function getRank(level) {
+
+        if (level >= 1000)
+            return "OLYMPIAN";
+
+        if (level >= 500)
+            return "GOD";
+
+        if (level >= 315)
+            return "ELITE";
+
+        if (level >= 250)
+            return "CHAMPION";
+
+        if (level >= 200)
+            return "DIAMOND";
+
+        if (level >= 150)
+            return "TITANIUM";
+
+        if (level >= 100)
+            return "GOLD";
+
+        if (level >= 60)
+            return "IRON";
+
+        if (level >= 20)
+            return "SILVER";
+
+        return "BRONZE";
+
+    }
+
+
+    /* ================================
+       XP FORMULA
+    ================================= */
+
+    function xpRequired(level) {
+
+        return Math.floor(
+            100 +
+            (level * 25) +
+            Math.pow(level, 1.35)
+        );
+
+    }
+
+
+    /* ================================
+       SAVE GAME
+    ================================= */
+
+    function saveGame() {
+
+        localStorage.setItem(
+            "levelUpPlayer",
+            JSON.stringify(player)
+        );
+
+        localStorage.setItem(
+            "levelUpTasks",
+            JSON.stringify(tasks)
+        );
+
+        saveRoutineData();
+
+    }
+
+
+    /* ================================
+       UPDATE UI
+    ================================= */
+
+    function updateUI() {
+
+        document.getElementById(
+            "levelDisplay"
+        ).textContent = player.level;
+
+
+        document.getElementById(
+            "rankDisplay"
+        ).textContent =
+            getRank(player.level);
+
+
+        document.getElementById(
+            "xpDisplay"
+        ).textContent =
+            `${player.xp} XP`;
+
+
+        const needed =
+            xpRequired(player.level);
+
+
+        document.getElementById(
+            "xpNeededDisplay"
+        ).textContent =
+            `${needed} XP NEEDED`;
+
+
+        const percentage =
+            Math.min(
+                (player.xp / needed) * 100,
+                100
+            );
+
+
+        document.getElementById(
+            "xpFill"
+        ).style.width =
+            percentage + "%";
+
+
+        document.getElementById(
+            "coinDisplay"
+        ).textContent =
+            player.coins;
+
+
+        document.getElementById(
+            "completedDisplay"
+        ).textContent =
+            player.completedTasks;
+
+
+        document.getElementById(
+            "totalXPDisplay"
+        ).textContent =
+            player.totalXP;
+
+
+        document.getElementById(
+            "streakDisplay"
+        ).textContent =
+            player.streak;
+
+
+        renderDailyTasks();
+
+        renderSchoolTasks();
+
+        renderTasks();
+
+        updateNotificationUI();
+
+    }
+
+
+    /* ================================
+       ADD CUSTOM QUEST
+    ================================= */
+
+    function addTask() {
+
+        const input =
+            document.getElementById(
+                "taskInput"
+            );
+
+        const xpInput =
+            document.getElementById(
+                "xpSelect"
+            );
+
+
+        const name =
+            input.value.trim();
+
+
+        const xp =
+            Number(xpInput.value);
+
+
+        if (!name) {
+
+            alert(
+                "Enter a quest name first."
+            );
+
+            return;
+
+        }
+
+
+        tasks.push({
+
+            id:
+                Date.now(),
+
+            name: name,
+
+            xp: xp,
+
+            completed: false
+
+        });
+
+
+        input.value = "";
+
+
+        saveGame();
+
+        updateUI();
+
+    }
+
+
+    /* ================================
+       COMPLETE CUSTOM QUEST
+    ================================= */
+
+    function completeTask(id) {
+
+        const task =
+            tasks.find(
+                task => task.id === id
+            );
+
+
+        if (!task || task.completed)
+            return;
+
+
+        task.completed = true;
+
+
+        giveXP(task.xp);
+
+        player.completedTasks++;
+
+        player.coins +=
+            Math.floor(task.xp / 5);
+
+
+        updateStreak();
+
+        saveGame();
+
+        updateUI();
+
+    }
+
+
+    /* ================================
+       COMPLETE DAILY TASK
+    ================================= */
+
+    function completeDailyTask(id) {
+
+        if (
+            dailyProgress.completed
+                .includes(id)
+        ) {
+            return;
+        }
+
+
+        const task =
+            dailyTaskDefinitions.find(
+                task => task.id === id
+            );
+
+
+        if (!task)
+            return;
+
+
+        dailyProgress.completed.push(id);
+
+
+        giveXP(task.xp);
+
+        player.completedTasks++;
+
+        player.coins +=
+            Math.floor(task.xp / 5);
+
+
+        updateStreak();
+
+        saveGame();
+
+        updateUI();
+
+    }
+
+
+    /* ================================
+       COMPLETE SCHOOL TASK
+    ================================= */
+
+    function completeSchoolTask(id) {
+
+        if (
+            schoolProgress.completed
+                .includes(id)
+        ) {
+            return;
+        }
+
+
+        const task =
+            schoolTaskDefinitions.find(
+                task => task.id === id
+            );
+
+
+        if (!task)
+            return;
+
+
+        schoolProgress.completed.push(id);
+
+
+        giveXP(task.xp);
+
+        player.completedTasks++;
+
+        player.coins +=
+            Math.floor(task.xp / 5);
+
+
+        updateStreak();
+
+        saveGame();
+
+        updateUI();
+
+    }
+
+
+    /* ================================
+       XP
+    ================================= */
+
+    function giveXP(amount) {
+
+        player.xp += amount;
+
+        player.totalXP += amount;
+
+
+        while (
+            player.xp >=
+            xpRequired(player.level)
+        ) {
+
+            player.xp -=
+                xpRequired(player.level);
+
+            player.level++;
+
+            showLevelUp();
+
+        }
+
+    }
+
+
+    /* ================================
+       STREAK
+    ================================= */
+
+    function updateStreak() {
+
+        const today =
+            new Date();
+
+
+        const todayString =
+            today.toDateString();
+
+
+        if (
+            player.lastCompletionDate ===
+            todayString
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            player.lastCompletionDate
+        ) {
+
+            const previous =
+                new Date(
+                    player.lastCompletionDate
+                );
+
+
+            const difference =
+                Math.floor(
+                    (
+                        today -
+                        previous
+                    ) /
+                    (
+                        1000 *
+                        60 *
+                        60 *
+                        24
+                    )
+                );
+
+
+            if (difference === 1) {
+
+                player.streak++;
+
+            } else {
+
+                player.streak = 1;
+
+            }
+
+        } else {
+
+            player.streak = 1;
+
+        }
+
+
+        player.lastCompletionDate =
+            todayString;
+
+    }
+
+
+    /* ================================
+       DAILY TASK RENDER
+    ================================= */
+
+    function renderDailyTasks() {
+
+        const container =
+            document.getElementById(
+                "dailyTasks"
+            );
+
+
+        container.innerHTML = "";
+
+
+        dailyTaskDefinitions.forEach(
+            task => {
+
+                const completed =
+                    dailyProgress.completed
+                        .includes(task.id);
+
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "task" +
+                    (
+                        completed
+                            ? " completed"
+                            : ""
+                    );
+
+
+                div.innerHTML = `
+
+                    <input
+                        class="task-check"
+                        type="checkbox"
+                        ${completed ? "checked" : ""}
+                        ${completed ? "disabled" : ""}
+                        onchange="completeDailyTask('${task.id}')"
+                    >
+
+                    <div class="task-name">
+                        ${escapeHTML(task.name)}
+                    </div>
+
+                    <div class="task-xp">
+                        +${task.xp} XP
+                    </div>
+
+                    <button
+                        class="complete-btn"
+                        onclick="completeDailyTask('${task.id}')"
+                        ${completed ? "disabled" : ""}
+                    >
+                        ${completed ? "DONE" : "COMPLETE"}
+                    </button>
+
+                `;
+
+
+                container.appendChild(div);
+
+            }
+        );
+
+    }
+
+
+    /* ================================
+       SCHOOL RENDER
+    ================================= */
+
+    function renderSchoolTasks() {
+
+        const container =
+            document.getElementById(
+                "schoolTasks"
+            );
+
+
+        if (!isSchoolDay()) {
+
+            container.innerHTML = `
+
+                <div class="school-offline">
+
+                    <strong>
+                        SCHOOL CHECKLIST OFFLINE
+                    </strong>
+
+                    School routine returns Monday.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        schoolTaskDefinitions.forEach(
+            task => {
+
+                const completed =
+                    schoolProgress.completed
+                        .includes(task.id);
+
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "task" +
+                    (
+                        completed
+                            ? " completed"
+                            : ""
+                    );
+
+
+                div.innerHTML = `
+
+                    <input
+                        class="task-check"
+                        type="checkbox"
+                        ${completed ? "checked" : ""}
+                        ${completed ? "disabled" : ""}
+                        onchange="completeSchoolTask('${task.id}')"
+                    >
+
+                    <div class="task-name">
+                        ${escapeHTML(task.name)}
+                    </div>
+
+                    <div class="task-xp">
+                        +${task.xp} XP
+                    </div>
+
+                    <button
+                        class="complete-btn"
+                        onclick="completeSchoolTask('${task.id}')"
+                        ${completed ? "disabled" : ""}
+                    >
+                        ${completed ? "DONE" : "COMPLETE"}
+                    </button>
+
+                `;
+
+
+                container.appendChild(div);
+
+            }
+        );
+
+    }
+
+
+    /* ================================
+       CUSTOM TASK RENDER
+    ================================= */
+
+    function renderTasks() {
+
+        const container =
+            document.getElementById(
+                "customTasks"
+            );
+
+
+        container.innerHTML = "";
+
+
+        if (tasks.length === 0) {
+
+            container.innerHTML = `
+
+                <div
+                    style="
+                        color:#607b84;
+                        text-align:center;
+                        padding:20px;
+                    "
+                >
+                    No custom quests yet.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        tasks.forEach(task => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "task" +
+                (
+                    task.completed
+                        ? " completed"
+                        : ""
+                );
+
+
+            div.innerHTML = `
+
+                <div class="task-name">
+                    ${escapeHTML(task.name)}
+                </div>
+
+                <div class="task-xp">
+                    +${task.xp} XP
+                </div>
+
+                <button
+                    class="complete-btn"
+                    onclick="completeTask(${task.id})"
+                    ${task.completed ? "disabled" : ""}
+                >
+                    ${task.completed ? "DONE" : "COMPLETE"}
+                </button>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteTask(${task.id})"
+                >
+                    DELETE
+                </button>
+
+            `;
+
+
+            container.appendChild(div);
+
+        });
+
+    }
+
+
+    /* ================================
+       DELETE CUSTOM QUEST
+    ================================= */
+
+    function deleteTask(id) {
+
+        tasks =
+            tasks.filter(
+                task => task.id !== id
+            );
+
+
+        saveGame();
+
+        updateUI();
+
+    }
+
+
+    /* ================================
+       ESCAPE HTML
+    ================================= */
+
+    function escapeHTML(text) {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.textContent = text;
+
+
+        return div.innerHTML;
+
+    }
+
+
+    /* ================================
+       LEVEL UP
+    ================================= */
+
+    function showLevelUp() {
+
+        document.getElementById(
+            "newLevelDisplay"
+        ).textContent =
+            player.level;
+
+
+        document.getElementById(
+            "levelUpPopup"
+        ).classList.add("show");
+
+    }
+
+
+    function closeLevelUp() {
+
+        document.getElementById(
+            "levelUpPopup"
+        ).classList.remove("show");
+
+    }
+
+
+    /* ================================
+       NOTIFICATIONS
+    ================================= */
+
+    function updateNotificationUI() {
+
+        const status =
+            document.getElementById(
+                "notificationStatus"
+            );
+
+
+        const button =
+            document.getElementById(
+                "notificationButton"
+            );
+
+
+        if (!status || !button)
+            return;
+
+
+        if (
+            notificationsEnabled &&
+            Notification.permission === "granted"
+        ) {
+
+            status.textContent =
+                "Notifications are enabled.";
+
+            button.textContent =
+                "NOTIFICATIONS ENABLED";
+
+        } else {
+
+            status.textContent =
+                "Notifications are currently disabled.";
+
+            button.textContent =
+                "ENABLE NOTIFICATIONS";
+
+        }
+
+    }
+
+
+    async function enableNotifications() {
+
+        if (
+            !("Notification" in window)
+        ) {
+
+            alert(
+                "This device or browser does not support notifications."
+            );
+
+            return;
+
+        }
+
+
+        const permission =
+            await Notification.requestPermission();
+
+
+        if (
+            permission === "granted"
+        ) {
+
+            notificationsEnabled = true;
+
+
+            localStorage.setItem(
+                "levelUpNotifications",
+                "true"
+            );
+
+
+            updateNotificationUI();
+
+
+            sendNotification(
+                "LEVELUP ONLINE",
+                "Notifications activated. Your grind starts now."
+            );
+
+        } else {
+
+            alert(
+                "Notifications were not enabled. Check your browser notification settings."
+            );
+
+        }
+
+    }
+
+
+    function sendNotification(
+        title,
+        message
+    ) {
+
+        if (!notificationsEnabled)
+            return;
+
+
+        if (
+            Notification.permission !==
+            "granted"
+        )
+            return;
+
+
+        navigator.serviceWorker.ready
+            .then(registration => {
+
+                registration.showNotification(
+                    title,
+                    {
+
+                        body: message,
+
+                        icon: "./icon.png",
+
+                        badge: "./icon.png",
+
+                        tag:
+                            "levelup-" +
+                            Date.now()
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    /* ================================
+       REMINDER TIMES
+    ================================= */
+
+    const reminderTimes = {
+
+        "06:45": {
+
+            title: "WAKE UP",
+
+            message:
+                "It's 6:45. Time to start your day."
+
+        },
+
+        "07:00": {
+
+            title: "MORNING ROUTINE",
+
+            message:
+                "Morning quests are waiting. Start earning XP."
+
+        },
+
+        "12:00": {
+
+            title: "WATER CHECK",
+
+            message:
+                "How much water have you had today?"
+
+        },
+
+        "17:00": {
+
+            title: "GYM QUEST",
+
+            message:
+                "Time to hit the gym and earn your XP."
+
+        },
+
+        "19:00": {
+
+            title: "STUDY QUEST",
+
+            message:
+                "Two hours of studying. Time to level up."
+
+        },
+
+        "21:00": {
+
+            title: "STREAK CHECK",
+
+            message:
+                "Don't let today's streak go to waste."
+
+        },
+
+        "23:00": {
+
+            title: "FINAL QUEST CHECK",
+
+            message:
+                "You still have XP available today."
+
+        }
+
+    };
+
+
+    function checkReminders() {
+
+        if (!notificationsEnabled)
+            return;
+
+
+        if (
+            Notification.permission !==
+            "granted"
+        )
+            return;
+
+
+        const now =
+            new Date();
+
+
+        const hour =
+            String(
+                now.getHours()
+            ).padStart(2, "0");
+
+
+        const minute =
+            String(
+                now.getMinutes()
+            ).padStart(2, "0");
+
+
+        const currentTime =
+            `${hour}:${minute}`;
+
+
+        const reminder =
+            reminderTimes[currentTime];
+
+
+        if (!reminder)
+            return;
+
+
+        const today =
+            new Date().toDateString();
+
+
+        const reminderKey =
+            `levelupReminder_${today}_${currentTime}`;
+
+
+        if (
+            localStorage.getItem(
+                reminderKey
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        sendNotification(
+            reminder.title,
+            reminder.message
+        );
+
+
+        localStorage.setItem(
+            reminderKey,
+            "true"
+        );
+
+    }
+
+
+    setInterval(
+        checkReminders,
+        30000
+    );
+
+
+    /* ================================
+       RESET PROGRESS
+    ================================= */
+
+    function resetProgress() {
+
+        const confirmation =
+            confirm(
+                "RESET ALL LEVELUP PROGRESS?\n\n" +
+                "This will reset your level, XP, coins, streak, " +
+                "completed quests, daily tasks and custom quests.\n\n" +
+                "This cannot be undone."
+            );
+
+
+        if (!confirmation)
+            return;
+
+
+        localStorage.removeItem(
+            "levelUpPlayer"
+        );
+
+        localStorage.removeItem(
+            "levelUpTasks"
+        );
+
+        localStorage.removeItem(
+            "levelUpDailyProgress"
+        );
+
+        localStorage.removeItem(
+            "levelUpSchoolProgress"
+        );
+
+
+        player = {
+
+            level: 1,
+
+            xp: 0,
+
+            totalXP: 0,
+
+            coins: 0,
+
+            completedTasks: 0,
+
+            streak: 0,
+
+            lastCompletionDate: null
+
+        };
+
+
+        tasks = [];
+
+
+        dailyProgress = {
+
+            date: getToday(),
+
+            completed: []
+
+        };
+
+
+        schoolProgress = {
+
+            date: getToday(),
+
+            completed: []
+
+        };
+
+
+        saveGame();
+
+        updateUI();
+
+
+        alert(
+            "LEVELUP has been completely reset."
+        );
+
+    }
+
+
+    /* ================================
+       ENTER KEY
+    ================================= */
+
+    document
+        .getElementById("taskInput")
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    addTask();
+
+                }
+
+            }
+        );
+
+
+    /* ================================
+       SERVICE WORKER
+    ================================= */
+
+    if (
+        "serviceWorker" in navigator
+    ) {
+
+        window.addEventListener(
+            "load",
+            () => {
+
+                navigator.serviceWorker
+                    .register("./sw.js")
+                    .then(() => {
+
+                        console.log(
+                            "LEVELUP service worker registered."
+                        );
+
+                    })
+                    .catch(error => {
+
+                        console.error(
+                            "Service worker registration failed:",
+                            error
+                        );
+
+                    });
+
+            }
+        );
+
+    }
+
+
+    /* ================================
+       START
+    ================================= */
+
+    checkDailyReset();
+
+    updateUI();
+
+</script>
+
+</body>
+</html>

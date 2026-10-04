@@ -1,0 +1,17 @@
+{
+    "name": "LEVELUP",
+    "short_name": "LEVELUP",
+    "description": "Cyberpunk productivity RPG",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#03050b",
+    "theme_color": "#00eaff",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
